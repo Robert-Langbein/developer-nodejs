@@ -3,8 +3,7 @@ services:
   your-service-name:
     image: justrobsi/developer:latest
     environment:
-      GITHUB_USERNAME: "yourGithubUsername"
-      GITHUB_TOKEN: "yourGithubToken"
+      GIT_USER_TOKEN: "yourGithubToken"
       GIT_USER_NAME: "yourName"
       GIT_USER_EMAIL: "yourEmail@yourDomain.com"
       SSH_KEY_EMAIL: "yourEmail@yourDomain.com"
