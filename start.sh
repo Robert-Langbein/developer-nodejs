@@ -9,12 +9,12 @@ export NVM_DIR="/usr/local/nvm"
 echo "root:${SSH_PASSWORD:-default}" | chpasswd
 
 # Generate SSH key if not already present
-SSH_KEY_PATH="/root/.ssh/${SSH_KEY_NAME}"
+SSH_KEY_PATH="/root/.ssh/${SSH_KEY_NAME:-default}"
 if [ ! -f "$SSH_KEY_PATH" ] && [ ! -f "$SSH_KEY_PATH.pub" ]; then
     # Ensure the .ssh directory exists
     mkdir -p /root/.ssh
     # Generating SSH key with the provided email and passphrase
-    ssh-keygen -t rsa -b 4096 -C "${SSH_KEY_EMAIL}" -N "${SSH_KEY_PASSPHRASE}" -f "$SSH_KEY_PATH"
+    ssh-keygen -t rsa -b 4096 -C "${SSH_KEY_EMAIL:-youremail@yourdomain.com}" -N "${SSH_KEY_PASSPHRASE:-password}" -f "$SSH_KEY_PATH"
     echo "SSH key generated at $SSH_KEY_PATH"
     
     # Copy the public key content to authorized_keys and set proper permissions
@@ -24,6 +24,14 @@ if [ ! -f "$SSH_KEY_PATH" ] && [ ! -f "$SSH_KEY_PATH.pub" ]; then
 else
     echo "SSH keys already exist."
 fi
+
+# Configure Git with the provided username and email from environment variables
+git config --global user.name "${GIT_USER_NAME:-Your Name}"
+git config --global user.email "${GIT_USER_EMAIL:-youremail@yourdomain.com}"
+
+# Set Git to use the token as password for the GitHub username permanently
+git config --global credential.helper store
+echo "https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com" > /root/.git-credentials
 
 # Adding NVM to .bashrc for command-line usage
 echo 'export NVM_DIR="/usr/local/nvm"' >> /root/.bashrc
