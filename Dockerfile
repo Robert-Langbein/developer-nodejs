@@ -10,12 +10,6 @@ RUN apt-get update && \
     apt-get clean && \
     mkdir /var/run/sshd
 
-# GitHub credentials as environment variables (to be passed at runtime)
-ENV GITHUB_USERNAME="Your GitHub Username"
-ENV GITHUB_TOKEN="Your GitHub Token"
-ENV GIT_USER_NAME="Your Name"
-ENV GIT_USER_EMAIL="youremail@yourdomain.com"
-
 # Install NVM, Node.js, and Yarn
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 20.11.0
@@ -33,17 +27,8 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 # Install Yarn globally using NPM
 RUN npm install -g yarn
 
-# Configure Git with the provided username and email
-RUN git config --global user.name "${GIT_USER_NAME}" && \
-    git config --global user.email "${GIT_USER_EMAIL}"
-
 # SSH login fix. Otherwise, user is told root is not allowed
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# Environment variables for SSH key generation
-ENV SSH_KEY_EMAIL="yourmail@domain.com"
-ENV SSH_KEY_NAME="default"
-ENV SSH_KEY_PASSPHRASE="password"
 
 # Modify .bashrc to add nvm, node...
 RUN echo 'export NVM_DIR="/usr/local/nvm"' >> /root/.bashrc && \
