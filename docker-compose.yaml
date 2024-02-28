@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  your-service-name:
+    image: justrobsi/developer:latest
+    environment:
+      GITHUB_USERNAME: "yourGithubUsername"
+      GITHUB_TOKEN: "yourGithubToken"
+      GIT_USER_NAME: "yourName"
+      GIT_USER_EMAIL: "yourEmail@yourDomain.com"
+      SSH_KEY_EMAIL: "yourEmail@yourDomain.com"
+      SSH_KEY_NAME: "default"
+      SSH_KEY_PASSPHRASE: "yourPassword"
+      SSH_PASSWORD: "yourSSHPassword"
+    ports:
+      - "22:22"
+      - "80:80"
+      - "3000-3010:3000-3010"
+    volumes:
+      - "/home/developer/home:/home"
+      - "/home/developer/root:/root"
+      - "/home/developer/etc_ssh:/etc/ssh"
+      - "/home/developer/usr_local_lib_node_modules:/usr/local/lib/node_modules"
