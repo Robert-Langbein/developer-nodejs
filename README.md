@@ -24,21 +24,21 @@ This Docker image is designed to provide an environment equipped with NVM (Node 
 Use the following `docker run` command to start the container, replacing placeholder values with your actual data:
 
 ```bash
-docker run -d \\
-  -e GITHUB_USERNAME="yourGithubUsername" \\
-  -e GITHUB_TOKEN="yourGithubToken" \\
-  -e GIT_USER_NAME="yourName" \\
-  -e GIT_USER_EMAIL="yourEmail@yourDomain.com" \\
-  -e SSH_KEY_EMAIL="yourEmail@yourDomain.com" \\
-  -e SSH_KEY_NAME="default" \\
-  -e SSH_KEY_PASSPHRASE="yourPassword" \\
-  -e SSH_PASSWORD="yourSSHPassword" \\
-  -p 22:22 -p 80:80 -p 3000-3010:3000-3010 \\
-  -v /home/developer/home:/home \\
-  -v /home/developer/root:/root \\
-  -v /home/developer/etc_ssh:/etc/ssh \\
-  -v /home/developer/usr_local_lib_node_modules:/usr/local/lib/node_modules \\
-  your-image-name
+docker run -d \
+  -e GITHUB_USERNAME="yourGithubUsername" \
+  -e GITHUB_TOKEN="yourGithubToken" \
+  -e GIT_USER_NAME="yourName" \
+  -e GIT_USER_EMAIL="yourEmail@yourDomain.com" \
+  -e SSH_KEY_EMAIL="yourEmail@yourDomain.com" \
+  -e SSH_KEY_NAME="default" \
+  -e SSH_KEY_PASSPHRASE="yourPassword" \
+  -e SSH_PASSWORD="yourSSHPassword" \
+  -p 22:22 -p 80:80 -p 3000-3010:3000-3010 \
+  -v /home/developer/home:/home \
+  -v /home/developer/root:/root \
+  -v /home/developer/etc_ssh:/etc/ssh \
+  -v /home/developer/usr_local_lib_node_modules:/usr/local/lib/node_modules \
+  justrobsi/developer:latest
 ```
 
 ### Using Docker Compose
@@ -49,7 +49,7 @@ Alternatively, you can use `docker-compose` with the provided `docker-compose.ya
 version: '3.8'
 services:
   your-service-name:
-    image: your-image-name
+    image: justrobsi/developer:latest
     environment:
       GITHUB_USERNAME: "yourGithubUsername"
       GITHUB_TOKEN: "yourGithubToken"
