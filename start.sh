@@ -31,7 +31,7 @@ git config --global user.email "${GIT_USER_EMAIL:-youremail@yourdomain.com}"
 
 # Set Git to use the token as password for the GitHub username permanently
 git config --global credential.helper store
-echo "https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com" > /root/.git-credentials
+echo "https://${GIT_USER_NAME}:${GIT_USER_TOKEN}@github.com" > /root/.git-credentials
 
 # Adding NVM to .bashrc for command-line usage
 echo 'export NVM_DIR="/usr/local/nvm"' >> /root/.bashrc
