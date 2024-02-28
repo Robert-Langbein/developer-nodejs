@@ -47,7 +47,7 @@ Alternatively, you can use `docker-compose` with the provided `docker-compose.ya
 ```yaml
 version: '3.8'
 services:
-  your-service-name:
+  developer-nodejs:
     image: justrobsi/developer:latest
     environment:
       GIT_USER_TOKEN: "yourGithubToken"
