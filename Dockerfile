@@ -35,6 +35,10 @@ RUN echo 'export NVM_DIR="/usr/local/nvm"' >> /root/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> /root/.bashrc && \
     echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> /root/.bashrc
 
+# Copy sshd_config
+COPY sshd_config /etc/ssh/sshd_config
+RUN chmod +x /etc/ssh/sshd_config
+
 # Copy and modify start.sh script
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
