@@ -25,8 +25,7 @@ Use the following `docker run` command to start the container, replacing placeho
 
 ```bash
 docker run -d \
-  -e GITHUB_USERNAME="yourGithubUsername" \
-  -e GITHUB_TOKEN="yourGithubToken" \
+  -e GIT_USER_TOKEN="yourGithubToken" \
   -e GIT_USER_NAME="yourName" \
   -e GIT_USER_EMAIL="yourEmail@yourDomain.com" \
   -e SSH_KEY_EMAIL="yourEmail@yourDomain.com" \
