@@ -13,8 +13,14 @@ SSH_KEY_PATH="/root/.ssh/${SSH_KEY_NAME:-default}"
 if [ ! -f "$SSH_KEY_PATH" ] && [ ! -f "$SSH_KEY_PATH.pub" ]; then
     # Ensure the .ssh directory exists
     mkdir -p /root/.ssh
-    # Generating SSH key with the provided email and passphrase
-    ssh-keygen -t rsa -b 4096 -C "${SSH_KEY_EMAIL:-youremail@yourdomain.com}" -N "${SSH_KEY_PASSPHRASE:-password}" -f "$SSH_KEY_PATH"
+    # Check if SSH_KEY_PASSPHRASE is set and not empty
+    if [ -n "${SSH_KEY_PASSPHRASE}" ]; then
+        passphrase_option="-N ${SSH_KEY_PASSPHRASE}"
+    else
+        passphrase_option="-N ''"
+    fi
+    # Generating SSH key with the provided email and optional passphrase
+    ssh-keygen -t rsa -b 4096 -C "${SSH_KEY_EMAIL:-youremail@yourdomain.com}" $passphrase_option -f "$SSH_KEY_PATH"
     echo "SSH key generated at $SSH_KEY_PATH"
     
     # Copy the public key content to authorized_keys and set proper permissions
@@ -24,6 +30,20 @@ if [ ! -f "$SSH_KEY_PATH" ] && [ ! -f "$SSH_KEY_PATH.pub" ]; then
 else
     echo "SSH keys already exist."
 fi
+
+# Remove old keys that were added by this script
+sed -i '/"SSH_PUBLIC_KEY_[0-9]\+"/d' /root/.ssh/authorized_keys
+
+# Add custom public keys based on given SSH_PUBLIC_KEY_n environment variable(s)
+for ((i=0; i<=99; i++)); do
+    varname="SSH_PUBLIC_KEY_${i}"
+    key="${!varname}"
+    if [[ -n "$key" ]]; then
+        echo "Implementing SSH key ${varname}..."
+        # Add the key and mark it with the variable name for identification
+        echo "$key \"${varname}\"" >> /root/.ssh/authorized_keys
+    fi
+done
 
 # Configure Git with the provided username and email from environment variables
 git config --global user.name "${GIT_USER_NAME:-Your Name}"
